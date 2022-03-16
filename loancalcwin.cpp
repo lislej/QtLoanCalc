@@ -194,7 +194,7 @@ void LoanCalcWin::on_pb_calculate_clicked()
     }
 
 
-    //thread,object, & connections to make remote service call, and cleanup after call
+    //create thread, worker object, & connections to make remote service call and cleanup after call
     QThread* loanCalcThread = new QThread;
     LoanCalcWorker *loanCalcWorker = new LoanCalcWorker(loancalctype, m_loancalc);
     loanCalcWorker->moveToThread(loanCalcThread);
@@ -210,16 +210,16 @@ void LoanCalcWin::on_pb_calculate_clicked()
         qDebug() << "connect(workerThread, &QThread::finished, workerObject, &LoanCalcWorker::deleteLater failed.";
 
     if ( !connect(loanCalcWorker, &LoanCalcWorker::doneProcess, loanCalcThread, &QThread::quit))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerThread, &QThread::quit)";
+        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerThread, &QThread::quit) failed.";
 
     if ( !connect(loanCalcWorker, &LoanCalcWorker::doneProcess, loanCalcWorker, &LoanCalcWorker::deleteLater))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerObject, &LoanCalcWorker::deleteLater)";
+        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerObject, &LoanCalcWorker::deleteLater) failed.";
 
     if ( !connect(loanCalcWorker, &LoanCalcWorker::calcResult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::calcresult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection)";
+        qDebug() << "connect(workerObject, &LoanCalcWorker::calcresult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection) failed.";
 
     if ( !connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::deleteLater))
-        qDebug() << "connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater)";
+        qDebug() << "connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater) failed.";
 
     loanCalcThread->start();
 }
