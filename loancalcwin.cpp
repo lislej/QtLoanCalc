@@ -196,8 +196,10 @@ void LoanCalcWin::on_pb_calculate_clicked()
 
     //create thread, worker object, & connections to make remote service call and cleanup after call
     QThread* loanCalcThread = new QThread;
-    LoanCalcWorker *loanCalcWorker = new LoanCalcWorker(loancalctype, m_loancalc);
+    LoanCalcWorker* loanCalcWorker = new LoanCalcWorker(loancalctype, m_loancalc);
     loanCalcWorker->moveToThread(loanCalcThread);
+
+
 
 
     if ( !connect(loanCalcWorker, &LoanCalcWorker::error, this, &LoanCalcWin::report_error))
@@ -214,6 +216,11 @@ void LoanCalcWin::on_pb_calculate_clicked()
 
     if ( !connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::deleteLater))
         qDebug() << "connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater) failed.";
+
+    if ( !connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit))
+        qDebug() << "connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit) failed.";
+
+
 
     loanCalcThread->start();
 }
@@ -269,17 +276,24 @@ void LoanCalcWin::verify_service()
    VersionWorker* versionWorker = new VersionWorker(NULL);
    versionWorker->moveToThread(versionThread);
 
-   bool connected = false;
-   connected = connect(versionThread, &QThread::started, versionWorker, &VersionWorker::ping);
-   if (!connected) qDebug("connect(versionThread, &QThread::started, versionWorker, &VersionWorker::ping)");
-   connected = connect(versionThread, &QThread::finished, versionWorker, &VersionWorker::deleteLater);
-   if (!connected) qDebug("connect(versionThread, &QThread::finished, versionWorker, &VersionWorker::deleteLater)");
-   connected = connect(versionThread, &QThread::finished, versionThread, &QThread::quit);
-   if (!connected) qDebug("connect(versionThread, &QThread::finished, versionThread, &VersionWorker::quit)");
-   connected = connect(versionWorker, &VersionWorker::enableCalcuationBtn, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection);
-   if (!connected) qDebug("connect(versionWorker, &VersionWorker::ping, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection)");
-   connected = connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater);
-   if (!connected) qDebug("connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater)");
+
+   if ( !connect(versionWorker, &VersionWorker::error, this, &LoanCalcWin::report_error))
+        qDebug() << "connect(versionThread, &LoanCalcWorker::error(QString), this, &LoanCalcWin::report_error(QString) failed.";
+
+   if ( !connect(versionThread, &QThread::started, versionWorker, &VersionWorker::ping))
+      qDebug("connect(versionThread, &QThread::started, versionWorker, &VersionWorker::ping)");
+
+   if ( !connect(versionThread, &QThread::finished, versionWorker, &VersionWorker::deleteLater))
+      qDebug("connect(versionThread, &QThread::finished, versionWorker, &VersionWorker::deleteLater)");
+
+   if ( !connect(versionThread, &QThread::finished, versionThread, &QThread::quit))
+      qDebug("connect(versionThread, &QThread::finished, versionThread, &VersionWorker::quit)");
+
+   if ( !connect(versionWorker, &VersionWorker::enableCalcuationBtn, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection))
+      qDebug("connect(versionWorker, &VersionWorker::ping, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection)");
+
+   if ( !connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater))
+      qDebug("connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater)");
 
    versionThread->start();
 }
