@@ -8,6 +8,11 @@ LoanCalcWorker::LoanCalcWorker(LOANCALCTYPE loancalctype, LoanCalcStruct* loanat
 
 }
 
+LoanCalcWorker::~LoanCalcWorker()
+{
+   delete m_loanattribs;
+}
+
 void LoanCalcWorker::calc ()
 {
 

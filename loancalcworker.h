@@ -16,6 +16,7 @@ class LoanCalcWorker : public QObject
 public:
     explicit LoanCalcWorker(QObject* parent = nullptr);
     explicit LoanCalcWorker(LOANCALCTYPE, LoanCalcStruct*);
+    ~LoanCalcWorker();
 
 public slots:
     void calc();
@@ -23,8 +24,7 @@ public slots:
 signals:
 
     void calcResult(LOANCALCTYPE, LoanCalcStruct*);
-    void error(QString);
-    void doneProcess();
+    void error(QString);    
     void finished();
 
 
