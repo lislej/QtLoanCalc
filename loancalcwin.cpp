@@ -209,12 +209,6 @@ void LoanCalcWin::on_pb_calculate_clicked()
     if ( !connect(loanCalcThread, &QThread::finished, loanCalcWorker, &LoanCalcWorker::deleteLater))
         qDebug() << "connect(workerThread, &QThread::finished, workerObject, &LoanCalcWorker::deleteLater failed.";
 
-    if ( !connect(loanCalcWorker, &LoanCalcWorker::doneProcess, loanCalcThread, &QThread::quit))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerThread, &QThread::quit) failed.";
-
-    if ( !connect(loanCalcWorker, &LoanCalcWorker::doneProcess, loanCalcWorker, &LoanCalcWorker::deleteLater))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::doneProcess, workerObject, &LoanCalcWorker::deleteLater) failed.";
-
     if ( !connect(loanCalcWorker, &LoanCalcWorker::calcResult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection))
         qDebug() << "connect(workerObject, &LoanCalcWorker::calcresult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection) failed.";
 
@@ -282,7 +276,7 @@ void LoanCalcWin::verify_service()
    if (!connected) qDebug("connect(versionThread, &QThread::finished, versionWorker, &VersionWorker::deleteLater)");
    connected = connect(versionThread, &QThread::finished, versionThread, &QThread::quit);
    if (!connected) qDebug("connect(versionThread, &QThread::finished, versionThread, &VersionWorker::quit)");
-   connected = connect(versionWorker, &VersionWorker::updateCalcBtn, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection);
+   connected = connect(versionWorker, &VersionWorker::enableCalcuationBtn, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection);
    if (!connected) qDebug("connect(versionWorker, &VersionWorker::ping, this, &LoanCalcWin::update_calculate_btn, Qt::QueuedConnection)");
    connected = connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater);
    if (!connected) qDebug("connect(versionThread, &QThread::finished, versionThread, &QThread::deleteLater)");
