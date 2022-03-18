@@ -17,9 +17,8 @@ public slots:
     void ping();
 
 signals:
-    void updateCalcBtn(bool);
-    void error();
-    void doneProcess();
+    void enableCalcuationBtn(bool);
+    void error(QString);
     void finished();
 
 private:

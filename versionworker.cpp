@@ -13,6 +13,6 @@ void VersionWorker::ping()
    VersionHandler versionhandler;
    bool m_callstatus =  versionhandler.PingService();
 
-   emit updateCalcBtn(m_callstatus);
+   emit enableCalcuationBtn(m_callstatus);
 }
 
