@@ -16,39 +16,35 @@ double amortsched::totalinterestpaid()
     double totintpaid = 0.0;
     double princpmt = 0.0;
     double balance = this->loanamt;
+
     for(int x=1; x <= this->loantrm; x++)
     {
-        intpmt = balance * this->loanrte/(12*100);
-        princpmt = this->loanpmt - intpmt;
-        totintpaid += intpmt;
-        balance -= princpmt;
+        intpmt = round(balance * this->loanrte/(12*100),3);
+        princpmt = round(this->loanpmt - intpmt,3);
+        totintpaid = round(totintpaid + intpmt, 3);
+        balance = round(balance - princpmt, 3);
     }
 
     return totintpaid;
 }
 
+
 void amortsched::amortization(double& balance, double& principle, double& interest)
 {
-    qDebug() << "Begin: " << interest << "   " << principle << "   " << balance << "\n";
-
-
     principle = 0.0;
     interest = 0.0;
 
-    interest = balance * (this->loanrte/(12*100));
+    interest = round(balance * (this->loanrte/(12*100)),3);
     principle = this->loanpmt - interest;
-    balance -= principle;
-
-    qDebug() << "End: " << interest << "   " << principle << "   " << balance << "\n";
+    balance = round(balance - principle > 0 ? balance - principle : 0 ,3);
 
 }
 
 QString amortsched::createschedule()
 {
-
     QString sched;
 
-    sched = "----------------Loan Amortization Schedule----------------\n\n";
+    sched = "--------------Loan Amortization Schedule--------------\n\n";
     sched += "Loan Amount .......:  " + QString().asprintf("%9.3f", this->loanamt) + "\n";
     sched += "Loan Payment ......:  " + QString().asprintf("%7.3f", this->loanpmt) + "\n";
     sched += "Interest Rate .....:  " + QString().asprintf("%5.3f", this->loanrte) + "\n";

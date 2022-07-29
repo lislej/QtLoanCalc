@@ -28,7 +28,7 @@ void LoanCalcWorker::calc ()
 
         TNS__CalcLoanAmtResponse calcloanamt_resp = lch.loancalcservice()->calcLoanAmt(calcloanamt);
 
-        m_loanattribs->setLoanAmt(calcloanamt_resp.loanAmt());
+        m_loanattribs->setLoanAmt(round(calcloanamt_resp.loanAmt(),3));
 
     }
     else if (m_loancalctype == LOANCALCTYPE::LOANTRM)
@@ -41,7 +41,7 @@ void LoanCalcWorker::calc ()
 
         TNS__CalcLoanTermResponse calcloanterm_resp = lch.loancalcservice()->calcLoanTerm(calcloanterm);
 
-        m_loanattribs->setLoanTrm(calcloanterm_resp.loanTerm());
+        m_loanattribs->setLoanTrm(round(calcloanterm_resp.loanTerm(),3));
 
     }
     else if (m_loancalctype == LOANCALCTYPE::LOANPMT)
@@ -55,7 +55,7 @@ void LoanCalcWorker::calc ()
 
         TNS__CalcLoanPmtResponse calcloanpmt_resp =   lch.loancalcservice()->calcLoanPmt(calcloanpmt);
 
-        m_loanattribs->setLoanPmt(calcloanpmt_resp.loanPmt());
+        m_loanattribs->setLoanPmt(round(calcloanpmt_resp.loanPmt(),3));
 
     }
     else if (m_loancalctype == LOANCALCTYPE::LOANRTE)
@@ -68,7 +68,7 @@ void LoanCalcWorker::calc ()
 
         TNS__CalcLoanRateResponse calcloanrate_resp = lch.loancalcservice()->calcLoanRate(calcloanrate);
 
-        m_loanattribs->setIntRate(calcloanrate_resp.loanRate());
+        m_loanattribs->setIntRate(round(calcloanrate_resp.loanRate(),4));
 
     }
 

@@ -42,6 +42,7 @@ private slots:
     void on_rb_int_rate_toggled();
 
     void on_pb_calculate_clicked();
+    void on_pb_clear_clicked();
 
 
 private:
@@ -50,5 +51,6 @@ private:
     VersionHandler vh;
     LOANCALCTYPE loancalctype;
     LoanCalcStruct* m_loancalc;
+    QTimer* m_timer;
 };
 #endif // LOANCALCWIN_H

@@ -28,6 +28,7 @@ HEADERS += \
     loancalculator.h \
     loancalcwin.h \
     loancalcworker.h \
+    utils.h \
     versionhandler.h \
     versionworker.h \
     wsdl_LoanCalcService.h \

@@ -5,6 +5,8 @@
 #include <QTextEdit>
 #include <QDebug>
 
+#include "utils.h"
+
 class amortsched
 {
 public:

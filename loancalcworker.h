@@ -6,6 +6,7 @@
 #include "wsdl_LoanCalcService.h"
 #include "loancalcservicehandler.h"
 #include "loancalcstruct.h"
+#include "utils.h"
 
 enum class LOANCALCTYPE{ LOANAMT, LOANPMT, LOANTRM, LOANRTE};
 

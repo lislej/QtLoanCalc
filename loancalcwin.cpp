@@ -6,8 +6,9 @@
 
 LoanCalcWin::LoanCalcWin(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::LoanCalcWin)
+    , ui(new Ui::LoanCalcWin)    
     , m_loancalc(new LoanCalcStruct)
+    , m_timer(new QTimer(this))
 {
 
 
@@ -26,10 +27,9 @@ LoanCalcWin::LoanCalcWin(QWidget *parent)
     //check service availability immediately
     QTimer::singleShot(0, this, &LoanCalcWin::verify_service);
 
-    //setup timer for checking service availability periodically
-    QTimer *timer = new QTimer(this);
-    QObject::connect(timer, &QTimer::timeout, this, &LoanCalcWin::verify_service);
-    timer->start(SERVICE_CHK_TIME_INTERVAL);
+    //setup timer for checking service availability periodically   
+    QObject::connect(m_timer, &QTimer::timeout, this, &LoanCalcWin::verify_service);
+    m_timer->start(SERVICE_CHK_TIME_INTERVAL);
 
 
 }
@@ -157,6 +157,17 @@ void LoanCalcWin::on_rb_int_rate_toggled()
     }
 }
 
+void LoanCalcWin::on_pb_clear_clicked()
+{
+
+    ui->le_int_rate->setText("");
+    ui->le_loan_amt->setText("");
+    ui->le_loan_pmt->setText("");
+    ui->le_loan_trm->setText("");
+    ui->textEdit->setText("");
+
+
+}
 
 void LoanCalcWin::on_pb_calculate_clicked()
 {
