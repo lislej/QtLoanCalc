@@ -51,3 +51,112 @@ compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+
+# Common Visual Studio Files #
+##############################
+Debug*
+Release*
+ipch
+GeneratedFiles
+moc_*.*
+*.suo
+*.opensdf
+ipch
+*.user
+*.obj
+*.exp
+*.pdb
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*_h.h
+*.ncb
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+[Ll]ib
+_UpgradeReport_Files
+.vs
+REPO
+mvdtools
+
+# Visual Studio Project and Solution Files #
+############################################
+*.common.settings
+
+# Intel Coverage Files ######################
+#############################################
+*.dyn
+*.SPI
+*.SPL
+*.dpi
+*.dpi.lock
+*.HTML
+
+# SVN and CVS Files #
+##############################
+.svn
+CVS
+
+*.sdf
+
+__*.gif
+
+LookAndFeelDemo/LookAndFeelDemo/Makefile*
+CorrelationWorkstation/*
+
+~$*.*
+*.lnt
+
+# Back up files #
+###############################
+* - Copy*
+*.bak.*
+old
