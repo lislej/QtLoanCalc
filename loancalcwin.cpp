@@ -3,6 +3,7 @@
 #include "amortsched.h"
 #include <QLocale>
 #include <QDebug>
+#include <qmessagebox.h>
 
 LoanCalcWin::LoanCalcWin(QWidget *parent)
     : QMainWindow(parent)
@@ -167,76 +168,162 @@ void LoanCalcWin::on_pb_clear_clicked()
     ui->le_loan_pmt->setText("");
     ui->le_loan_trm->setText("");
     ui->textEdit->setText("");
-    ui->le_loan_amt->setFocus();
-
-
+    
+    ui->rb_loan_amt->isChecked() ? ui->le_int_rate->setFocus() : ui->le_loan_amt->setFocus();
+    
 }
+
+
 
 void LoanCalcWin::on_pb_calculate_clicked()
 {
+    bool input_error = true;
+
     if (ui->rb_int_rate->isChecked())
     {
-        this->loancalctype = LOANCALCTYPE::LOANRTE;
-        m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
-        m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
-        m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
+
+            if (ui->le_loan_amt->text().toDouble() <= 0.0)
+            {
+                QMessageBox::warning(this, "Input Error", "Missing Loan Amount");
+                ui->le_loan_amt->setFocus();
+            }
+            else if (ui->le_loan_trm->text().toDouble() <= 0)
+            {
+                QMessageBox::warning(this, "Input Error", "Missing Loan Term");
+                ui->le_loan_trm->setFocus();
+            }
+            else if (ui->le_loan_pmt->text().toDouble() <= 0.0)
+            {
+                QMessageBox::warning(this, "Input Error", "Missing Loan Payment");
+                ui->le_loan_pmt->setFocus();
+            }
+            else
+            {
+                this->loancalctype = LOANCALCTYPE::LOANRTE;
+                m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
+                m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
+                m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
+
+                input_error = false;
+            }
 
     }
     else if (ui->rb_loan_trm->isChecked())
     {
-        this->loancalctype = LOANCALCTYPE::LOANTRM;
-        m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
-        m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
-        m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
+        if (ui->le_loan_amt->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Amount");
+            ui->le_loan_amt->setFocus();
+        }
+        else if (ui->le_int_rate->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Interest Rate");
+            ui->le_int_rate->setFocus();
+        }
+        else if (ui->le_loan_pmt->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Payment");
+            ui->le_loan_pmt->setFocus();
+        }
+        else
+        {
+            this->loancalctype = LOANCALCTYPE::LOANTRM;
+            m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
+            m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
+            m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
 
+            input_error = false;
+        }
     }
     else if (ui->rb_loan_pmt->isChecked())
     {
-        this->loancalctype = LOANCALCTYPE::LOANPMT;
-        m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
-        m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
-        m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
+        if (ui->le_loan_amt->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Amount");
+            ui->le_loan_amt->setFocus();
+        }
+        else if (ui->le_int_rate->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Interest Rate");
+            ui->le_int_rate->setFocus();
+        }
+        else if (ui->le_loan_trm->text().toDouble() <= 0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Term");
+            ui->le_loan_trm->setFocus();
+        }
+        else
+        {
+            this->loancalctype = LOANCALCTYPE::LOANPMT;
+            m_loancalc->setLoanAmt(ui->le_loan_amt->text().toDouble());
+            m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
+            m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
 
+            input_error = false;
+        }
     }
     else if (ui->rb_loan_amt->isChecked())
     {
-        this->loancalctype = LOANCALCTYPE::LOANAMT;
-        m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
-        m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
-        m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
+        if (ui->le_int_rate->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Interest Rate");
+            ui->le_int_rate->setFocus();
+        }
+        else if (ui->le_loan_pmt->text().toDouble() <= 0.0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Payment");
+            ui->le_loan_pmt->setFocus();
+        }
+        else if (ui->le_loan_trm->text().toDouble() <= 0)
+        {
+            QMessageBox::warning(this, "Input Error", "Missing Loan Term");
+            ui->le_loan_trm->setFocus();
+        }
+        else
+        {
+            this->loancalctype = LOANCALCTYPE::LOANAMT;
+            m_loancalc->setLoanPmt(ui->le_loan_pmt->text().toDouble());
+            m_loancalc->setLoanTrm(ui->le_loan_trm->text().toInt());
+            m_loancalc->setIntRate(ui->le_int_rate->text().toDouble());
 
+            input_error = false;
+        }
     }
 
+    if (!input_error)
+    {
 
-    //create thread, worker object, & connections to make remote service call and cleanup after call
-    QThread* loanCalcThread = new QThread;
-    LoanCalcWorker* loanCalcWorker = new LoanCalcWorker(loancalctype, m_loancalc);
-    loanCalcWorker->moveToThread(loanCalcThread);
-
-
-
-
-    if ( !connect(loanCalcWorker, &LoanCalcWorker::error, this, &LoanCalcWin::report_error))
-         qDebug() << "connect(loanCalcWorker, &LoanCalcWorker::error(QString), this, &LoanCalcWin::report_error(QString) failed.";
-
-    if ( !connect(loanCalcThread, &QThread::started, loanCalcWorker, &LoanCalcWorker::calc))
-        qDebug() << "connect(workerThread, &QThread::started, workerObject, &LoanCalcWorker::calc) failed.";
-
-    if ( !connect(loanCalcThread, &QThread::finished, loanCalcWorker, &LoanCalcWorker::deleteLater))
-        qDebug() << "connect(workerThread, &QThread::finished, workerObject, &LoanCalcWorker::deleteLater failed.";
-
-    if ( !connect(loanCalcWorker, &LoanCalcWorker::calcResult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection))
-        qDebug() << "connect(workerObject, &LoanCalcWorker::calcresult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection) failed.";
-
-    if ( !connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::deleteLater))
-        qDebug() << "connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater) failed.";
-
-    if ( !connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit))
-        qDebug() << "connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit) failed.";
+        //create thread, worker object, & connections to make remote service call and cleanup after call
+        QThread* loanCalcThread = new QThread;
+        LoanCalcWorker* loanCalcWorker = new LoanCalcWorker(loancalctype, m_loancalc);
+        loanCalcWorker->moveToThread(loanCalcThread);
 
 
 
-    loanCalcThread->start();
+
+        if (!connect(loanCalcWorker, &LoanCalcWorker::error, this, &LoanCalcWin::report_error))
+            qDebug() << "connect(loanCalcWorker, &LoanCalcWorker::error(QString), this, &LoanCalcWin::report_error(QString) failed.";
+
+        if (!connect(loanCalcThread, &QThread::started, loanCalcWorker, &LoanCalcWorker::calc))
+            qDebug() << "connect(workerThread, &QThread::started, workerObject, &LoanCalcWorker::calc) failed.";
+
+        if (!connect(loanCalcThread, &QThread::finished, loanCalcWorker, &LoanCalcWorker::deleteLater))
+            qDebug() << "connect(workerThread, &QThread::finished, workerObject, &LoanCalcWorker::deleteLater failed.";
+
+        if (!connect(loanCalcWorker, &LoanCalcWorker::calcResult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection))
+            qDebug() << "connect(workerObject, &LoanCalcWorker::calcresult, this, &LoanCalcWin::update_loancalculator_result, Qt::QueuedConnection) failed.";
+
+        if (!connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::deleteLater))
+            qDebug() << "connect(workerThread, &QThread::finished, workerThread, &QThread::deleteLater) failed.";
+
+        if (!connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit))
+            qDebug() << "connect(loanCalcThread, &QThread::finished, loanCalcThread, &QThread::quit) failed.";
+
+
+
+        loanCalcThread->start();
+
+    }
 }
 
 void LoanCalcWin::update_loancalculator_result(LOANCALCTYPE loancalctype, LoanCalcStruct* loancalcparms)
