@@ -7,10 +7,10 @@
 LoanCalcWin::LoanCalcWin(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoanCalcWin)    
+    , loancalctype(LOANCALCTYPE::LOANPMT)
     , m_loancalc(new LoanCalcStruct)
     , m_timer(new QTimer(this))
 {
-
 
     ui->setupUi(this);
 
@@ -38,6 +38,8 @@ LoanCalcWin::~LoanCalcWin()
 {
     delete ui;
     delete m_loancalc;
+    delete m_timer;
+
 }
 
 void LoanCalcWin::on_rb_loan_amt_toggled()
@@ -165,6 +167,7 @@ void LoanCalcWin::on_pb_clear_clicked()
     ui->le_loan_pmt->setText("");
     ui->le_loan_trm->setText("");
     ui->textEdit->setText("");
+    ui->le_loan_amt->setFocus();
 
 
 }
@@ -265,19 +268,14 @@ void LoanCalcWin::update_loancalculator_result(LOANCALCTYPE loancalctype, LoanCa
         ui->le_loan_trm->setText(loanTrm);
     }
 
-
-    //double amt, double pmt, double rte, int trm
-
-    double loan_amt = ui->le_loan_amt->text().toDouble();
-    double loan_pmt = ui->le_loan_pmt->text().toDouble();
-    int loan_trm = ui->le_loan_trm->text().toDouble();
-    double int_rate = ui->le_int_rate->text().toDouble();
-
-    amortsched* as = new amortsched(loan_amt,
-                                    loan_pmt,
-                                    int_rate,
-                                    loan_trm);
-
+    AmortizationSchedule* as = new AmortizationSchedule(
+        ui->le_loan_amt->text().toDouble(),
+        ui->le_loan_pmt->text().toDouble(),        
+        ui->le_int_rate->text().toDouble(),
+        ui->le_loan_trm->text().toInt()
+    );
+    
+    ui->textEdit->setFont(QFont("Courier New", 9, 11));
     ui->textEdit->setText(as->createschedule());
 }
 

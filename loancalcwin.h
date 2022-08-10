@@ -48,7 +48,6 @@ private slots:
 private:
     const int SERVICE_CHK_TIME_INTERVAL = 15000;
     Ui::LoanCalcWin* ui;    
-    VersionHandler vh;
     LOANCALCTYPE loancalctype;
     LoanCalcStruct* m_loancalc;
     QTimer* m_timer;

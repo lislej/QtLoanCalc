@@ -7,22 +7,22 @@
 
 #include "utils.h"
 
-class amortsched
+class AmortizationSchedule
 {
 public:
-    amortsched(double amt, double pmt, double rte, int trm);
+    AmortizationSchedule(double amt, double pmt, double rte, int trm);
     QString createschedule();
 
 private:
 
     double totalinterestpaid();
-    void amortization(double& balance, double& principle, double& interest);
+    void calcPIB(double& balance, double& principle, double& interest);
 
     double loanamt;
     double loanpmt;
     double loanrte;
     int loantrm;    
-    QTextEdit amortschedule;
+//    QTextEdit amortschedule;
 };
 
 #endif // AMORTSCHED_H
