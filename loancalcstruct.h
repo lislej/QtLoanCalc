@@ -31,6 +31,7 @@ private:
 
 };
 
+
 Q_DECLARE_METATYPE(LoanCalcStruct);
 Q_DECLARE_METATYPE(LoanCalcStruct*);
 

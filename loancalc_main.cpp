@@ -2,7 +2,7 @@
 #include <QApplication>
 #include "loancalcwin.h"
 
-
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 
 int main(int argc, char *argv[])
