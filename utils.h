@@ -6,9 +6,9 @@
 
 
 template <typename T>
-T round(T data, int decplace)
+T round(T data, int dec2round)
 {
-    return floor(data * std::pow(10, decplace - 1) + 0.5) / std::pow(10, decplace - 1);
+    return floor(data * std::pow(10, dec2round - 1) + 0.5) / std::pow(10, dec2round - 1);
 }
 
 
